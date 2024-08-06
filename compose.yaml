@@ -1,35 +1,38 @@
 version: '3.8'
 services:
-  prometheus:
-    depends_on:
-      - prometheus-alertmanager-container
-    container_name: prometheus_afrikpay
-    ports:
-      - "9090:9090"
-    restart: unless-stopped
-    build:
-      context: ./config_prometheus/.
-      dockerfile: Dockerfile
+  # prometheus:
+  #   image: prom/prometheus:v2.53.1
+  #   depends_on:
+  #     - prometheus-alertmanager-container
+  #   container_name: prometheus_afrikpay
+  #   ports:
+  #     - "9090:9090"
+  #   restart: unless-stopped
+  #   volumes:
+  #     - ./config_prometheus/:/etc/prometheus/
 
-  prometheus-alertmanager-container:
-    container_name: alertmanager_afrikpay
-    ports:
-      - "9093:9093"
-    restart: unless-stopped
-    build:
-      context: ./config_alertmanager/.
-      dockerfile: Dockerfile
-    environment:
-      - TZ=UTC
+  # prometheus-alertmanager-container:
+  #   image: prom/alertmanager:v0.27.0
+  #   container_name: alertmanager_afrikpay
+  #   ports:
+  #     - "9093:9093"
+  #   restart: unless-stopped
+  #   environment:
+  #     - TZ=UTC
+  #   volumes:
+  #     - ./sre/config_alertmanager/:/etc/alertmanager/
 
   grafana:
-    image: grafana/grafana
+    #image: grafana/grafana:10.0.0
     container_name: grafana_afrikpay
     depends_on:
       - postgres
     ports:
       - "3000:3000"
     restart: unless-stopped
+    build:
+      context: ./config_grafana/.
+      dockerfile: Dockerfile
     environment:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=afrikpay-grafana
@@ -40,6 +43,7 @@ services:
       - GF_DATABASE_NAME=postgres
       - GF_DATABASE_USER=postgres
       - GF_DATABASE_PASSWORD=mysecretpassword
+      - GF_USERS_DEFAULT_THEME=light
     volumes: 
       - './config_grafana:/var/lib/grafana'
 
@@ -52,3 +56,11 @@ services:
     environment:
       - POSTGRES_PASSWORD=mysecretpassword
       - POSTGRES_USER=postgres
+
+  # blackbox:
+  #   image: prom/blackbox-exporter:v0.25.0
+  #   container_name: blackboxexporter_afrikpay
+  #   ports:
+  #   - 9115:9115
+  #   volumes:
+  #   - ./config_prometheus/blackbox_exporter/:/etc/blackbox/
