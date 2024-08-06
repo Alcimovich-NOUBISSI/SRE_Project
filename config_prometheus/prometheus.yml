@@ -35,5 +35,5 @@ alerting:
         - alertmanager_afrikpay:9093 
 
 rule_files:
-  - "/etc/prometheus/rules/prometheus_rules.yml"
+  - "/etc/prometheus/prometheus_rules.yml"
   

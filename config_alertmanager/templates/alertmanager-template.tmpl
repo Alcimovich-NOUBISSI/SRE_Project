@@ -1,1 +1,7 @@
-{{ define "slack.postgres.text" }} {{.}} {{ end }}
+{{ define "slack.postgres.text" }} 
+
+{{ (index .Alerts 0).Annotations.alertname }}
+{{ (index .Alerts 0).Annotations.severity }}
+{{ (index .Alerts 0).Annotations.summary }}
+
+{{ end }}
