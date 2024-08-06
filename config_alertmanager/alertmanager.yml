@@ -1,6 +1,6 @@
 global:
   resolve_timeout: 1m
-  slack_api_url: 'https://hooks.slack.com/services/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'
+  #slack_api_url:
   http_config:
     tls_config:
       insecure_skip_verify: true
