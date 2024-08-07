@@ -6,10 +6,10 @@ groups:
 
 - name: remote prometheus
   rules:
-  - alert: NodeStatus
-    expr: up{instance="34.86.5.170:9090",  job="prometheus-test"} == 1
+  - alert: Prometheus_Status
+    expr: up{instance="34.86.5.170:9090",  job="prometheus test"} == 1
     for: 10s
     labels:
       severity: critical
     annotations:
-      summary: "{{ $labels.instance }} is down"
+      summary: "{{ $labels.job }} is down"

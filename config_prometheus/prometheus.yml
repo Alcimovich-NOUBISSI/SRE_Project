@@ -18,12 +18,12 @@ scrape_configs:
         action: replace
         target_label: 'env'
 
-  - job_name: 'prometheus-test'
+  - job_name: 'prometheus test'
     honor_labels: true
     metrics_path: '/federate'
     params:
       'match[]':
-        - '{instance="34.86.5.170:9090",  job="prometheus-test"}'
+        - '{instance="34.86.5.170:9090",  job="prometheus test"}'
     static_configs:
       - targets:
         - '34.86.5.170:9090'

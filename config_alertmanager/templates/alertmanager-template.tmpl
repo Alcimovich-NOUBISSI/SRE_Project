@@ -1,7 +1,13 @@
-{{ define "slack.postgres.text" }} 
+{{ define "__subject" }}
 
-{{ (index .Alerts 0).Annotations.alertname }}
-{{ (index .Alerts 0).Annotations.severity }}
-{{ (index .Alerts 0).Annotations.summary }}
-
+    {{ if eq .Status "firing" }} 
+        {{ (index .Alerts 0).Annotations.summary }}
+    {{ else}} 
+        {{ (index .Alerts 0).Labels.job }} is back up 
+    {{ end }}
+    
 {{ end }}
+
+{{ define "slack.postgres.text" }} {{ template "__subject" . }} {{ end }}
+
+{{ define "slack.default.title" }}{{ (index .Alerts 0).Labels.alertname }}{{ end }}
